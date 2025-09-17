@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  trading-bot:
+    build: .
+    container_name: ai-trading-bot
+    volumes:
+      - ./logs:/app/logs
+      - ./backups:/app/backups
+      - ./reports:/app/reports
+      - ./.env:/app/.env
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    command: python main.py continuous 30
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama-service
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - "11435:11434"
+    restart: unless-stopped
+
+volumes:
+  ollama_data:
