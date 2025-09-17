@@ -1,0 +1,16 @@
+langchain==0.1.0
+langgraph==0.0.20
+langchain-community==0.0.10
+langchain-ollama==0.1.0
+ollama==0.1.7
+pybit==5.7.0
+requests==2.31.0
+python-dotenv==1.0.0
+pandas==2.1.4
+numpy==1.24.3
+duckduckgo-search==3.9.6
+alpha-vantage==2.3.1
+ta==0.10.2
+schedule==1.2.0
+loguru==0.7.2
+pydantic==2.5.0
