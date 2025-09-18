@@ -547,3 +547,58 @@ class TradingAgent:
         
         except Exception as e:
             logger.error(f"Ошибка запуска агента: {e}")
+    
+    def get_graph_mermaid(self) -> str:
+        """Возвращает Mermaid диаграмму графа агента (flowchart)."""
+        try:
+            nodes = [
+                "collect_data",
+                "analyze_market",
+                "analyze_news",
+                "ai_analysis",
+                "risk_assessment",
+                "generate_plan",
+                "make_decision",
+                "execute_trade",
+                "monitor",
+                "END"
+            ]
+            edges = [
+                ("collect_data", "analyze_market"),
+                ("analyze_market", "analyze_news"),
+                ("analyze_news", "ai_analysis"),
+                ("ai_analysis", "risk_assessment"),
+                ("risk_assessment", "generate_plan"),
+                ("generate_plan", "make_decision"),
+                ("make_decision", "execute_trade"),
+                ("execute_trade", "monitor"),
+                ("monitor", "END")
+            ]
+            lines = ["flowchart TD"]
+            titles = {
+                "collect_data": "Collect Data",
+                "analyze_market": "Analyze Market",
+                "analyze_news": "Analyze News",
+                "ai_analysis": "AI Analysis",
+                "risk_assessment": "Risk Assessment",
+                "generate_plan": "Generate Plan",
+                "make_decision": "Make Decision",
+                "execute_trade": "Execute Trade",
+                "monitor": "Monitor",
+                "END": "END"
+            }
+            for node in nodes:
+                if node == "END":
+                    lines.append(f"    {node}((END))")
+                else:
+                    lines.append(f"    {node}[{titles.get(node, node)}]")
+            for src, dst in edges:
+                lines.append(f"    {src} --> {dst}")
+            lines.append("    classDef action fill:#0ea5e9,stroke:#0369a1,color:#fff;")
+            lines.append("    classDef end fill:#a3a3a3,stroke:#525252,color:#fff;")
+            lines.append("    class collect_data,analyze_market,analyze_news,ai_analysis,risk_assessment,generate_plan,make_decision,execute_trade,monitor action;")
+            lines.append("    class END end;")
+            return "\n".join(lines)
+        except Exception as e:
+            logger.error(f"Ошибка генерации Mermaid графа: {e}")
+            return "flowchart TD\n    A[Error]"
